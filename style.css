@@ -1,0 +1,1226 @@
+/* Reset & Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f9fc;
+  color: #2c3e50;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 0 20px;
+}
+
+/* Header */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background: #004080;
+  padding: 10px 0;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.header-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: nowrap;
+}
+
+.logo-title {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo {
+  width: 90px;
+  height: auto;
+  background-color: white;
+  padding: 6px 8px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.summit-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  white-space: nowrap;
+}
+
+.navbar {
+  display: flex;
+  justify-content: flex-end;
+  flex-grow: 1;
+}
+
+.nav-menu {
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 25px;
+  padding-left: 0;
+  margin: 0;
+}
+
+.nav-menu li a {
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.nav-menu li a:hover {
+  background: #0066cc;
+}
+
+.admin-btn {
+  background-color: #004080;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.admin-btn:hover {
+  background-color: #0066cc;
+}
+
+@media (max-width: 768px) {
+  .header-bar {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .logo-title {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  .navbar {
+    width: 100%;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .nav-menu {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+}
+
+/* Keep all your existing styles from Hero Slider downwards unchanged */
+
+
+
+/**************** Hero Slider ****************************/
+.hero-slider {
+  position: relative;
+  overflow: hidden;
+  height: 500px;
+}
+
+.hero-slide {
+  position: absolute;
+  top: 0;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+}
+
+.hero-slide.active {
+  left: 0;
+  opacity: 1;
+  z-index: 1;
+}
+
+.hero-slide .overlay {
+  text-align: center;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 40px;
+  border-radius: 12px;
+}
+
+.hero-slide h2 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.hero-slide p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.hero-slide .btn {
+  padding: 12px 25px;
+  background: #ff9800;
+  color: white;
+  text-decoration: none;
+  border-radius: 25px;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.hero-slide .btn:hover {
+  background: #e68a00;
+}
+
+
+
+/* About Section */
+.about-summit {
+  background: #ffffff;
+  padding: 60px 20px;
+}
+
+.about-summit h2 {
+  font-size: 28px;
+  text-align: center;
+  color: #004080;
+  margin-bottom: 20px;
+}
+
+.about-summit p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #333;
+  max-width: 800px;
+  margin: auto auto 20px;
+  text-align: justify;
+}
+
+/* Scientific Programme */
+.scientific-programme {
+  background-color: #f2f8ff;
+  padding: 60px 20px;
+}
+
+.scientific-programme h2 {
+  text-align: center;
+  font-size: 28px;
+  color: #004080;
+  margin-bottom: 20px;
+}
+
+#program-content {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  font-size: 16px;
+  white-space: pre-wrap;
+  line-height: 1.7;
+  color: #333;
+  max-width: 900px;
+  margin: auto;
+}
+
+/* -----------Scientific Program Structure----------- */
+.program-day {
+  margin-bottom: 40px;
+}
+
+.program-day h3 {
+  font-size: 22px;
+  color: #004080;
+  margin-bottom: 20px;
+  border-left: 5px solid #ff9800;
+  padding-left: 15px;
+}
+
+.session {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.session h4 {
+  font-size: 18px;
+  color: #004080;
+  margin-bottom: 10px;
+}
+
+.topic-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.topic-list li {
+  padding: 10px;
+  border-bottom: 1px dashed #ccc;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.topic-list li:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  .program-day h3 {
+    font-size: 20px;
+  }
+
+  .session h4 {
+    font-size: 16px;
+  }
+
+  .topic-list li {
+    font-size: 14px;
+  }
+}
+
+
+
+
+
+/* Forms - Registration & Contact */
+.registration-form,
+.contactus-section {
+  background: #f4f8fc;
+  padding: 60px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.registration-form .container,
+.contactus-section .container {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  max-width: 800px;
+  width: 100%;
+}
+
+.registration-form h2,
+.contactus-section h2 {
+  text-align: center;
+  font-size: 28px;
+  color: #004080;
+  margin-bottom: 30px;
+  font-weight: 700;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 30px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group-full {
+  grid-column: span 2;
+}
+
+label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  padding: 10px 14px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: border 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #004080;
+}
+
+textarea {
+  resize: none;
+  height: 100px;
+}
+
+input[type="radio"] {
+  margin-right: 6px;
+}
+
+.btn {
+  grid-column: span 2;
+  padding: 14px;
+  background: #004080;
+  color: white;
+  font-size: 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn:hover {
+  background: #003366;
+}
+
+/* Admin Login */
+.admin-login {
+  background: linear-gradient(135deg, #e0f7fa, #ffffff);
+  padding: 80px 20px;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-login .container {
+  background: #ffffff;
+  padding: 40px 30px;
+  max-width: 420px;
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.admin-login h2 {
+  text-align: center;
+  color: #004080;
+  margin-bottom: 30px;
+}
+
+.admin-login .form-group {
+  margin-bottom: 20px;
+}
+
+.admin-login label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.admin-login input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.admin-login .btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #004080;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+  cursor: pointer;
+}
+
+.admin-login .btn:hover {
+  background-color: #0066cc;
+}
+
+/* Admin Dashboard */
+.admin-dashboard {
+  background: #f9f9f9;
+  padding: 60px 20px;
+  min-height: 100vh;
+}
+
+.admin-dashboard .container {
+  background: white;
+  max-width: 800px;
+  margin: auto;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.admin-dashboard h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #004080;
+}
+
+.admin-section {
+  margin-top: 40px;
+  padding: 30px 0;
+  text-align: center;
+}
+
+.admin-section h3 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+#scientific-program-text {
+  width: 100%;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  margin-bottom: 15px;
+  resize: vertical;
+}
+
+/* Buttons in Admin */
+.btn-download {
+  background-color: #0073e6;
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-download:hover {
+  background-color: #005bb5;
+}
+
+.btn-logout {
+  background-color: #ff4747;
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 20px;
+}
+
+.btn-logout:hover {
+  background-color: #cc3a3a;
+}
+
+/* Search Bar */
+.search-input {
+  width: 80%;
+  padding: 12px;
+  margin: 20px auto;
+  display: block;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  text-align: center;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #0073e6;
+}
+
+/* Footer */
+footer {
+  background: #004080;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  margin-top: 60px;
+}
+
+/* Responsive */
+  @media (max-width: 768px) {
+    .header-bar {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .navbar {
+      width: 100%;
+      justify-content: center;
+      margin-top: 10px;
+    }
+  
+    .nav-menu {
+      flex-direction: column;
+      align-items: center;
+    }
+  }  
+
+  form {
+    grid-template-columns: 1fr;
+  }
+
+  .btn {
+    grid-column: span 1;
+  }
+
+  .logo-title {
+    justify-content: center;
+  }
+
+  .navbar {
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+
+
+
+
+  /* ---------- Saved Sessions Styling ---------- */
+#saved-sessions {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+#saved-sessions h4 {
+  margin-top: 15px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #333;
+}
+
+#saved-sessions div {
+  margin-bottom: 10px;
+  padding: 10px;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+#saved-sessions button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #0b72b9;
+  color: white;
+}
+
+#saved-sessions button.btn-logout {
+  background-color: #e74c3c;
+}
+
+/* ---------- Registered Members Table Styling ---------- */
+#program-content {
+  overflow-x: auto;
+}
+
+#program-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#program-content th,
+#program-content td {
+  padding: 12px 15px;
+  border: 1px solid #eee;
+  text-align: left;
+}
+
+#program-content th {
+  background-color: #0b72b9;
+  color: white;
+  font-weight: 600;
+}
+
+#program-content tr:nth-child(even) {
+  background-color: #f7f7f7;
+}
+
+.search-input {
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 100%;
+  max-width: 400px;
+}
+
+
+
+
+
+/* ---------- Welcome Admin Section ---------- */
+.admin-dashboard .container h2 {
+  font-size: 28px;
+  color: #0b72b9;
+  margin-bottom: 5px;
+}
+
+.admin-dashboard .container p {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.admin-dashboard .container {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  max-width: 1200px;
+  margin: 30px auto;
+}
+
+.admin-section {
+  margin-bottom: 30px;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+
+
+/* ---------- Center Welcome Section ---------- */
+.admin-dashboard .container h2,
+.admin-dashboard .container p {
+  text-align: center;
+}
+
+.admin-dashboard .container {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  max-width: 1200px;
+  margin: 30px auto;
+}
+
+
+/* ---------- Admin Header ---------- */
+.admin-header {
+  background-color: #0b72b9;
+  color: white;
+  padding: 15px 30px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+
+
+/* ------------------Registered member edit/deletefunction in admin-dashboard------------------- */
+
+.btn-delete {
+  background-color: #e74c3c;
+  color: white;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-delete:hover {
+  background-color: #c0392b;
+}
+
+
+/* ------------------admin password show /hide------------------- */
+
+.password-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  flex: 1;
+}
+
+.toggle-password {
+  margin-left: 10px;
+  padding: 6px 12px;
+  background-color: #0b72b9;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+
+/* ---------- Responsive Design for Mobile & Tablets ---------- */
+@media (max-width: 768px) {
+  .admin-dashboard .container {
+    padding: 15px;
+  }
+
+  .form-group,
+  .form-group-full {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  label {
+    font-size: 15px;
+  }
+
+  .search-input {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .btn,
+  .btn-logout,
+  .btn-download,
+  .btn-delete {
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+
+  table {
+    font-size: 14px;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+
+  th, td {
+    white-space: nowrap;
+  }
+}
+
+
+
+
+/* ---------- Gallery/News Section ---------- */
+/* ---------- Shared Gallery Layout ---------- */
+.gallery-section {
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.gallery-section h2 {
+  font-size: 26px;
+  color: #0b72b9;
+  margin-bottom: 30px;
+  text-transform: running;
+  letter-spacing: 1px;
+}
+
+.gallery-section h3 {
+  font-size: 18px;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+  padding: 0 10px;
+}
+
+/* ---------- Photo Gallery Design ---------- */
+.photo-style {
+  background: linear-gradient(to right, #f7f7f7, #eef1f5);
+}
+
+.photo-grid img {
+  width: 270px;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.photo-grid img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* ----------------Golden Devider Line between 2024 & 2023 gallery------------------ */
+
+.gold-divider {
+  width: 1400px;
+  height: 4px;
+  background: linear-gradient(to right, #d4af37, #ffd700, #d4af37);
+  border-radius: 2px;
+  margin: 40px auto;
+  box-shadow: 0 2px 10px rgba(255, 215, 0, 0.4);
+}
+
+
+
+
+/* ---------- News Gallery Design ----------
+.news-style {
+  background: #fffef7;
+  border-top: 4px solid #f39c12;
+}
+
+.news-grid img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border: 2px dashed #aaa;
+  filter: grayscale(100%);
+  border-radius: 6px;
+  background-color: #fff;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.news-grid img:hover {
+  filter: grayscale(0%);
+  transform: scale(1.02);
+  border-color: #e67e22;
+} */
+
+
+
+
+
+/* ---------- About Page Styles ---------- */
+
+.site-header {
+  background: linear-gradient(to right, #0b72b9, #1458a2);
+  color: white;
+  padding: 60px 20px;
+  text-align: center;
+  font-size: 28px;
+  letter-spacing: 1px;
+  font-weight: bold;
+  text-transform: uppercase;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.about-section {
+  padding: 60px 20px;
+  background-color: #f4f7fb;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.about-section .container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.about-section h2 {
+  font-size: 24px;
+  color: #0b72b9;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.about-section h2::after {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 3px;
+  background: #0b72b9;
+  margin-top: 5px;
+  border-radius: 2px;
+}
+
+.about-section p {
+  font-size: 16px;
+  color: #444;
+  margin-bottom: 25px;
+}
+
+.about-section ul {
+  list-style-type: disc;
+  padding-left: 25px;
+  color: #444;
+  margin-bottom: 25px;
+}
+
+.about-section ul li {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.cta-button {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.cta-button .btn {
+  display: inline-block;
+  background-color: #0b72b9;
+  color: white;
+  padding: 12px 25px;
+  font-size: 16px;
+  text-decoration: none;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.cta-button .btn:hover {
+  background-color: #095a8d;
+  transform: translateY(-2px);
+}
+
+
+
+
+/* ---------- Scientific Committee Section (Modern Style) ---------- */
+.committee-section {
+  background: linear-gradient(to right, #f2f6fc, #eaf2ff);
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.committee-section h2 {
+  font-size: 32px;
+  color: #0b72b9;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: bold;
+}
+
+.committee-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+.member-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease-in-out;
+  text-align: center;
+}
+
+.member-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+
+.member-card img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  border: 2px solid #0b72b9;
+}
+
+.member-card p {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+
+
+
+/* ---------- Collaboration Section Updated Style ---------- */
+/* ---------- Collaboration Section Final Design ---------- */
+.collaboration-section {
+  background: #fefefe;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.collaboration-section h2 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 36px;
+  color: #0b72b9;
+  margin-bottom: 40px;
+}
+
+.collaboration-layout {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.logo-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.square-group {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+/* Common logo box style */
+.logo-box {
+  background: #fff;
+  padding: 15px;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+  border: 2px solid #f05aa2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.logo-box:hover {
+  transform: scale(1.05);
+}
+
+/* Logo sizes */
+.logo-box.rectangle {
+  width: 300px;
+  height: 100px;
+}
+
+.logo-box.square {
+  width: 210px;
+  height: 210px;
+}
+
+.logo-box img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+
+
+/* ------------------------Animated buttons in hero secion in index file------------------------ */
+/* ---------- Animated CTA Buttons ---------- */
+.cta-buttons {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.animated-btn {
+  text-decoration: none;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Register Now - Pink gradient */
+.btn-register {
+  color: white;
+  background: linear-gradient(45deg, #f05aa2, #f97794);
+}
+
+.btn-register::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.2);
+  transition: left 0.5s;
+  z-index: 0;
+}
+
+.btn-register:hover::before {
+  left: 100%;
+}
+
+/* View Program - Blue gradient */
+.btn-program {
+  color: white;
+  background: linear-gradient(45deg, #0b72b9, #1273c4);
+}
+
+.btn-program::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.2);
+  transition: left 0.5s;
+  z-index: 0;
+}
+
+.btn-program:hover::before {
+  left: 100%;
+}
+
+.animated-btn:hover {
+  transform: translateY(-3px);
+}

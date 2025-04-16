@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us - Rajasthan Cardiology Summit</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container header-bar">
+      <div class="logo-title">
+        <img src="assets/images/RCS Logo.png" alt="Summit Logo" class="logo" />
+        <span class="summit-name">Rajasthan Cardiology Summit</span>
+      </div>
+      <nav class="navbar">
+        <ul class="nav-menu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="#scientific-programme">Programme</a></li>
+          <li><a href="registration.html">Registration</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  
+
+  <!-- Contact Us Section -->
+  <section class="contactus-section">
+    <div class="container">
+      <h2>Contact Us</h2>
+      <form id="contactus-form" onsubmit="return validateContactForm()">
+        <div class="form-group">
+          <label for="fullname">Full Name</label>
+          <input type="text" id="fullname" name="fullname" required />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Mobile Number</label>
+          <input type="text" id="phone" name="phone" pattern="^[0-9]{10}$" required />
+        </div>
+
+        <div class="form-group form-group-full">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" required></textarea>
+        </div>
+
+        <button type="submit" class="btn">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Rajasthan Cardiology Summit. All rights reserved.</p>
+      <p>Email: info@rajasthancardiologysummit.com</p>
+    </div>
+  </footer>
+</body>
+</html>
