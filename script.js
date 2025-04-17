@@ -1,5 +1,20 @@
 // ========== Rajasthan Cardiology Summit JavaScript ==========
 
+// ------------------Initialize Firebase SDK Backend-------------------------
+var firebaseConfig = {
+  apiKey: "AIzaSyBpsfs21-nfTHTanDBkYuXhmjivmyKf9qo",
+  authDomain: "rajasthancardiologysummit.firebaseapp.com",
+
+  databaseURL: "https://rajasthancardiologysummit-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "rajasthancardiologysummit",
+  storageBucket: "rajasthancardiologysummit.appspot.com",
+  messagingSenderId: "933647173687",
+  appId: "1:933647173687:web:2dac7c3950c047bf21d7b2"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+
 // -------------------- Form Validation --------------------
 function validateForm() {
   const mobile = document.getElementById('mobile').value;
@@ -19,6 +34,58 @@ function validateForm() {
 
   return true;
 }
+
+
+// ----------------------Handle Contact Form Submission----------------------
+
+function handleContactForm(e) {
+  e.preventDefault();
+
+  const name = document.getElementById("contact-name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const message = document.getElementById("message").value.trim();
+
+  const phonePattern = /^[0-9]{10}$/;
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!name || !phone || !email || !message) {
+    alert("Please fill in all required fields.");
+    return;
+  }
+
+  if (!phonePattern.test(phone)) {
+    alert("Please enter a valid 10-digit mobile number.");
+    return;
+  }
+
+  if (!emailPattern.test(email)) {
+    alert("Please enter a valid email address.");
+    return;
+  }
+
+  const contactData = {
+    name,
+    phone,
+    email,
+    message,
+    timestamp: new Date().toISOString()
+  };
+
+  firebase.database().ref("contacts").push(contactData, error => {
+    if (error) {
+      alert("Failed to send your message. Please try again.");
+    } else {
+      alert("Thank you! Your message has been submitted.");
+      document.getElementById("contact-form").reset();
+    }
+  });
+}
+
+
+
+
+
 
 // -------------------- Contact Form Validation --------------------
 function validateContactForm() {
@@ -91,18 +158,29 @@ function renderSavedSessions() {
       const box = document.createElement("div");
       box.innerHTML = `<strong>Session ${sIndex + 1}</strong>: ${session.title}`;
 
+      const btnEdit = document.createElement("button");
+      btnEdit.innerHTML = '<i class="fas fa-edit"></i>';
+      btnEdit.className = "btn-icon";
+      btnEdit.title = "Edit Session";
+      btnEdit.onclick = () => {
+        alert("Edit functionality coming soon."); // Optional message or action
+      };
+      
       const btnDelete = document.createElement("button");
-      btnDelete.innerText = "Delete";
-      btnDelete.className = "btn-logout";
+      btnDelete.innerHTML = '<i class="fas fa-trash-alt"></i>';
+      btnDelete.className = "btn-icon delete";
+      btnDelete.title = "Delete Session";
       btnDelete.onclick = () => {
         if (confirm("Are you sure you want to delete this session?")) {
-          data[dayKey].splice(sIndex, 1);
-          localStorage.setItem("scientificProgram", JSON.stringify(data));
-          renderSavedSessions();
+          firebase.database().ref("scientificProgram").child(session.id).remove().then(() => {
+            renderSavedSessions();
+          });
         }
       };
-
+      
+      box.appendChild(btnEdit);
       box.appendChild(btnDelete);
+      
       dayBlock.appendChild(box);
     });
     container.appendChild(dayBlock);
@@ -113,9 +191,16 @@ window.addEventListener("DOMContentLoaded", () => {
   if (document.getElementById("saved-sessions")) {
     renderSavedSessions();
   }
+
+  if (document.getElementById("sessions-day-1")) {
+    displayScientificProgram(); // ✅ For homepage
+  }
 });
 
-// -------------------- Registration Form Handling --------------------
+
+
+
+// -------------------------------Handle Registration Form Submission by Firebase Backend-------------------------------
 function handleRegistration(e) {
   e.preventDefault();
 
@@ -129,35 +214,20 @@ function handleRegistration(e) {
   const gender = document.querySelector("input[name='gender']:checked");
   const assistance = document.querySelector("input[name='assistance']:checked");
 
-  // Simple field validations
   if (!firstName || !lastName || !mobile || !email || !address || !state || !city || !gender || !assistance) {
     alert("Please fill in all required fields.");
     return;
   }
 
-  // Validate mobile number
   const mobilePattern = /^[0-9]{10}$/;
   if (!mobilePattern.test(mobile)) {
     alert("Please enter a valid 10-digit mobile number.");
     return;
   }
 
-  // Validate email
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailPattern.test(email)) {
     alert("Please enter a valid email address.");
-    return;
-  }
-
-  const registrations = JSON.parse(localStorage.getItem("registrations")) || [];
-
-  // Check for duplicates
-  const duplicate = registrations.find(
-    reg => reg.mobile === mobile || reg.email.toLowerCase() === email.toLowerCase()
-  );
-
-  if (duplicate) {
-    alert("This mobile number or email is already registered.");
     return;
   }
 
@@ -169,20 +239,35 @@ function handleRegistration(e) {
     address,
     state,
     city,
-    assistance: assistance.value
+    assistance: assistance.value,
+    timestamp: new Date().toISOString()
   };
 
-  registrations.push(data);
-  localStorage.setItem("registrations", JSON.stringify(registrations));
+  const dbRef = firebase.database().ref("registrations");
 
-  alert("Registration successful!");
-  document.getElementById("registration-form").reset();
+  // Check for duplicate mobile number
+  dbRef.orderByChild("mobile").equalTo(mobile).once("value", snapshot => {
+    if (snapshot.exists()) {
+      alert("This mobile number is already registered.");
+    } else {
+      dbRef.push(data, error => {
+        if (error) {
+          alert("Error saving your registration. Please try again.");
+        } else {
+          alert("You registered successfully for Rajasthan Cardiology Summit 2025.");
+          document.getElementById("registration-form").reset();
 
-  // Auto-refresh list in admin panel if open
-  if (document.getElementById("program-content")) {
-    renderRegisteredMembers();
-  }
+          // Optional: refresh admin view if open
+          if (document.getElementById("program-content")) {
+            renderRegisteredMembers();
+          }
+        }
+      });
+    }
+  });
 }
+
+
 
 
 // -------------------- Download Registration --------------------
@@ -246,6 +331,9 @@ function addTopic() {
   container.appendChild(topicDiv);
 }
 
+
+// -----------------------------Save Session for Firebase SDK-----------------------
+
 function saveSession() {
   const day = document.getElementById("program-day").value;
   const sessionTitle = document.getElementById("session-title").value.trim();
@@ -274,115 +362,183 @@ function saveSession() {
     return;
   }
 
-  const session = { title: sessionTitle, topics };
-  let data = JSON.parse(localStorage.getItem("scientificProgram")) || { day1: [], day2: [] };
-  data[day].push(session);
-  localStorage.setItem("scientificProgram", JSON.stringify(data));
+  const session = { day, title: sessionTitle, topics };
 
-  alert("Session saved successfully!");
-  document.getElementById("session-title").value = "";
-  document.getElementById("topics-container").innerHTML = "<h4>Topics in this Session</h4>";
-
-  renderSavedSessions();
-  displayScientificProgram();
-}
-
-
-
-
-
-
-
-// -------------------- Session Viewer --------------------
-function saveSession() {
-  const day = document.getElementById("program-day").value;
-  const sessionTitle = document.getElementById("session-title").value.trim();
-
-  if (!sessionTitle) {
-    alert("Please enter a session title.");
-    return;
-  }
-
-  const topicDivs = document.querySelectorAll("#topics-container .form-group-full");
-  let topics = [];
-
-  topicDivs.forEach(div => {
-    const time = div.querySelector(".topic-time").value.trim();
-    const duration = div.querySelector(".topic-duration").value.trim();
-    const topic = div.querySelector(".topic-title").value.trim();
-    const speaker = div.querySelector(".topic-speaker").value.trim();
-
-    if (time && duration && topic && speaker) {
-      topics.push({ time, duration, topic, speaker });
+  // Save to Firebase
+  firebase.database().ref("scientificProgram").push(session, error => {
+    if (error) {
+      alert("Error saving session. Please try again.");
+    } else {
+      alert("Session saved successfully!");
+      document.getElementById("session-title").value = "";
+      document.getElementById("topics-container").innerHTML = "<h4>Topics in this Session</h4>";
+      renderSavedSessions();
     }
   });
-
-  if (topics.length === 0) {
-    alert("Please add at least one complete topic.");
-    return;
-  }
-
-  // Save to localStorage (as already working)
-  const session = { title: sessionTitle, topics };
-  let data = JSON.parse(localStorage.getItem("scientificProgram")) || { day1: [], day2: [] };
-  data[day].push(session);
-  localStorage.setItem("scientificProgram", JSON.stringify(data));
-
-  // ✅ NEW: Send data to Google Sheet
-  const sessionPayload = {
-    day,
-    sessionTitle,
-    topics
-  };
-
-  fetch("https://script.google.com/macros/s/AKfycbyGNcmSVdnNVTHbQsdM9XEdT5J4RFKHw9UFqSQgmVA0UsKwP8MVDyY6xolf-6_XYt1i/exec", {
-    method: "POST",
-    body: JSON.stringify(sessionPayload),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-    .then(response => response.text())
-    .then(msg => console.log("Google Sheet Response:", msg))
-    .catch(error => console.error("Sheet Save Error:", error));
-
-  // Reset form
-  alert("Session saved successfully!");
-  document.getElementById("session-title").value = "";
-  document.getElementById("topics-container").innerHTML = "<h4>Topics in this Session</h4>";
-
-  renderSavedSessions();
-  displayScientificProgram();
 }
+
+
+
+// ---------------------------Session Viewer for Firebase SDK -----------------------------
+
+
+function renderSavedSessions() {
+  const container = document.getElementById("saved-sessions");
+  if (!container) return;
+
+  const dbRef = firebase.database().ref("scientificProgram");
+
+  dbRef.once("value", snapshot => {
+    const data = { day1: [], day2: [] };
+
+    snapshot.forEach(childSnapshot => {
+      const session = childSnapshot.val();
+      session.id = childSnapshot.key;
+      if (data[session.day]) {
+        data[session.day].push(session);
+      }
+    });
+
+    container.innerHTML = "";
+
+    ['day1', 'day2'].forEach((dayKey, index) => {
+      const dayBlock = document.createElement("div");
+      dayBlock.innerHTML = `<h4>Day ${index + 1}</h4>`;
+
+      data[dayKey].forEach((session, sIndex) => {
+        const box = document.createElement("div");
+        box.innerHTML = `<strong>Session ${sIndex + 1}</strong>: ${session.title}`;
+
+        // ✅ Edit button
+        const btnEdit = document.createElement("button");
+        btnEdit.innerHTML = '<i class="fas fa-edit"></i>';
+        btnEdit.className = "btn-icon";
+        btnEdit.title = "Edit Session";
+        btnEdit.onclick = () => {
+          document.getElementById("program-day").value = dayKey;
+          document.getElementById("session-title").value = session.title;
+
+          const container = document.getElementById("topics-container");
+          container.innerHTML = "<h4>Topics in this Session</h4>";
+
+          session.topics.forEach(topic => {
+            const div = document.createElement("div");
+            div.classList.add("form-group-full");
+            div.innerHTML = `
+              <input type="text" value="${topic.time}" class="topic-time" required>
+              <input type="text" value="${topic.duration}" class="topic-duration" required>
+              <input type="text" value="${topic.topic}" class="topic-title" required>
+              <input type="text" value="${topic.speaker}" class="topic-speaker" required>
+            `;
+            container.appendChild(div);
+          });
+
+          // delete session from firebase for now
+          firebase.database().ref("scientificProgram").child(session.id).remove().then(() => {
+            renderSavedSessions();
+          });
+        };
+
+        // ✅ Delete button
+        const btnDelete = document.createElement("button");
+        btnDelete.innerHTML = '<i class="fas fa-trash-alt"></i>';
+        btnDelete.className = "btn-icon delete";
+        btnDelete.title = "Delete Session";
+        btnDelete.onclick = () => {
+          if (confirm("Are you sure you want to delete this session?")) {
+            firebase.database().ref("scientificProgram").child(session.id).remove().then(() => {
+              renderSavedSessions();
+            });
+          }
+        };
+
+        box.appendChild(btnEdit);
+        box.appendChild(btnDelete);
+        dayBlock.appendChild(box);
+      });
+
+      container.appendChild(dayBlock);
+    });
+  });
+}
+
+
+
+
+// --------------------------Session Editor-------------------------------
+
+
+function loadSessionToEditor(day, sessionIndex) {
+  const data = JSON.parse(localStorage.getItem("scientificProgram")) || { day1: [], day2: [] };
+  const session = data[day][sessionIndex];
+
+  document.getElementById("program-day").value = day;
+  document.getElementById("session-title").value = session.title;
+  const container = document.getElementById("topics-container");
+  container.innerHTML = "<h4>Topics in this Session</h4>";
+
+  session.topics.forEach(topic => {
+    const div = document.createElement("div");
+    div.classList.add("form-group-full");
+    div.innerHTML = `
+      <input type="text" value="${topic.time}" class="topic-time" required>
+      <input type="text" value="${topic.duration}" class="topic-duration" required>
+      <input type="text" value="${topic.topic}" class="topic-title" required>
+      <input type="text" value="${topic.speaker}" class="topic-speaker" required>
+    `;
+    container.appendChild(div);
+  });
+
+  data[day].splice(sessionIndex, 1);
+  localStorage.setItem("scientificProgram", JSON.stringify(data));
+}
+
+
+
+
+
+
+// ---------------------------Display Scientific Program-----------------------------
 
 function displayScientificProgram() {
   const container1 = document.getElementById("sessions-day-1");
   const container2 = document.getElementById("sessions-day-2");
   if (!container1 || !container2) return;
 
-  const data = JSON.parse(localStorage.getItem("scientificProgram")) || { day1: [], day2: [] };
-  container1.innerHTML = "";
-  container2.innerHTML = "";
+  firebase.database().ref("scientificProgram").once("value", snapshot => {
+    const data = { day1: [], day2: [] };
 
-  ["day1", "day2"].forEach((day, i) => {
-    const container = i === 0 ? container1 : container2;
-    data[day].forEach((session, j) => {
-      const sessionDiv = document.createElement("div");
-      sessionDiv.className = "session";
+    snapshot.forEach(child => {
+      const session = child.val();
+      if (data[session.day]) {
+        data[session.day].push(session);
+      }
+    });
 
-      const sessionTitle = document.createElement("h4");
-      sessionTitle.innerText = `Session ${j + 1}: ${session.title}`;
+    container1.innerHTML = "";
+    container2.innerHTML = "";
 
-      const ul = document.createElement("ul");
-      session.topics.forEach(topic => {
-        const li = document.createElement("li");
-        li.innerText = `${topic.time} | ${topic.duration} | ${topic.topic} | ${topic.speaker}`;
-        ul.appendChild(li);
+    ["day1", "day2"].forEach((day, i) => {
+      const container = i === 0 ? container1 : container2;
+
+      data[day].forEach((session, j) => {
+        const sessionDiv = document.createElement("div");
+        sessionDiv.className = "session";
+
+        const sessionTitle = document.createElement("h4");
+        sessionTitle.innerText = `Session ${j + 1}: ${session.title}`;
+
+        const ul = document.createElement("ul");
+        session.topics.forEach(topic => {
+          const li = document.createElement("li");
+          li.innerText = `${topic.time} | ${topic.duration} | ${topic.topic} | ${topic.speaker}`;
+          ul.appendChild(li);
+        });
+
+        sessionDiv.appendChild(sessionTitle);
+        sessionDiv.appendChild(ul);
+        container.appendChild(sessionDiv);
       });
-
-      sessionDiv.appendChild(sessionTitle);
-      sessionDiv.appendChild(ul);
-      container.appendChild(sessionDiv);
     });
   });
 }
@@ -392,78 +548,90 @@ function displayScientificProgram() {
 
 
 
-
-
-
-// --------------------Registration Data-----to display registration data------------------------
+// --------------------------------Load Registered Data in Admin Panel from Firebase------------------------
 
 function renderRegisteredMembers() {
   const container = document.getElementById("program-content");
-  let data = JSON.parse(localStorage.getItem("registrations")) || [];
-
   if (!container) return;
 
-  if (data.length === 0) {
-    container.innerHTML = "<p>No registered members found.</p>";
-    return;
-  }
+  const dbRef = firebase.database().ref("registrations");
 
-  let html = `
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Gender</th>
-          <th>Mobile</th>
-          <th>Email</th>
-          <th>Address</th>
-          <th>State</th>
-          <th>City</th>
-          <th>Assistance</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-  `;
+  dbRef.once("value", snapshot => {
+    const data = [];
+    snapshot.forEach(childSnapshot => {
+      data.push({ id: childSnapshot.key, ...childSnapshot.val() });
+    });
 
-  data.forEach((entry, index) => {
-    html += `
-      <tr>
-        <td>${entry.name}</td>
-        <td>${entry.gender}</td>
-        <td>${entry.mobile}</td>
-        <td>${entry.email}</td>
-        <td>${entry.address}</td>
-        <td>${entry.state}</td>
-        <td>${entry.city}</td>
-        <td>${entry.assistance}</td>
-        <td>
-          <button class="btn-delete" onclick="deleteRegistration(${index})">Delete</button>
-        </td>
-      </tr>
-    `;
-  });
-
-  html += `</tbody></table>`;
-  container.innerHTML = html;
-}
-
-
-
-function deleteRegistration(index) {
-  let registrations = JSON.parse(localStorage.getItem("registrations")) || [];
-
-  if (index >= 0 && index < registrations.length) {
-    const confirmed = confirm("Are you sure you want to delete this registration?");
-    if (confirmed) {
-      registrations.splice(index, 1);
-      localStorage.setItem("registrations", JSON.stringify(registrations));
-      renderRegisteredMembers();
+    if (data.length === 0) {
+      container.innerHTML = "<p>No registered members found.</p>";
+      return;
     }
-  } else {
-    alert("Unable to delete. Invalid index.");
+
+    let html = `
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Mobile</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>State</th>
+            <th>City</th>
+            <th>Assistance</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    data.forEach((entry, index) => {
+      html += `
+        <tr>
+          <td>${entry.name}</td>
+          <td>${entry.gender}</td>
+          <td>${entry.mobile}</td>
+          <td>${entry.email}</td>
+          <td>${entry.address}</td>
+          <td>${entry.state}</td>
+          <td>${entry.city}</td>
+          <td>${entry.assistance}</td>
+          <td>
+            <button class="btn-delete" onclick="deleteRegistration('${entry.id}')">Delete</button>
+          </td>
+        </tr>
+      `;
+    });
+
+    html += `</tbody></table>`;
+    container.innerHTML = html;
+  });
+}
+
+
+
+
+
+
+
+// --------------------------Delete Registration Data in admin dashboard from Firebase-----------------------------
+
+
+function deleteRegistration(id) {
+  if (confirm("Are you sure you want to delete this registration?")) {
+    firebase.database().ref("registrations").child(id).remove()
+      .then(() => {
+        alert("Registration deleted successfully.");
+        renderRegisteredMembers(); // Refresh the table
+      })
+      .catch(() => {
+        alert("Failed to delete. Please try again.");
+      });
   }
 }
+
+
+
 
 
 

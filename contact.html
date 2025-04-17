@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Contact Us - Rajasthan Cardiology Summit</title>
   <link rel="stylesheet" href="style.css" />
+  <!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<!-- -----------Main JS file---------------- -->
   <script src="script.js" defer></script>
 </head>
 <body>
@@ -12,7 +16,7 @@
   <header>
     <div class="container header-bar">
       <div class="logo-title">
-        <img src="assets/images/RCS Logo.png" alt="Summit Logo" class="logo" />
+        <img src="assets/Logo/RCS Logo.png" alt="Summit Logo" class="logo" />
         <span class="summit-name">Rajasthan Cardiology Summit</span>
       </div>
       <nav class="navbar">
@@ -32,10 +36,19 @@
   <section class="contactus-section">
     <div class="container">
       <h2>Contact Us</h2>
-      <form id="contactus-form" onsubmit="return validateContactForm()">
+<!-- ----------------------This is for Firebase SDK---------------------- -->
+      <form id="contact-form" onsubmit="handleContactForm(event)">
+<!-- ----------------------This is previous code for localStorage---------------------- -->
+      <!-- <form id="contactus-form" onsubmit="return validateContactForm()"> -->
         <div class="form-group">
-          <label for="fullname">Full Name</label>
-          <input type="text" id="fullname" name="fullname" required />
+<!-- --------------------------This is for Firebase SDK---------------------- -->
+          <label for="contact-name">Full Name</label>
+<!-- ----------------------This is previous code for localStorage---------------------- -->
+          <!-- <label for="fullname">Full Name</label> -->
+<!-- ----------------------This is for Firebase SDK---------------------- -->
+<input type="text" id="contact-name" name="contact-name" required />
+<!-- ----------------------This is previous code for localStorage---------------------- -->
+          <!-- <input type="text" id="fullname" name="fullname" required /> -->
         </div>
 
         <div class="form-group">
@@ -58,11 +71,15 @@
     </div>
   </section>
 
+
+
+
+
   <!-- Footer -->
   <footer>
     <div class="container">
-      <p>&copy; 2025 Rajasthan Cardiology Summit. All rights reserved.</p>
-      <p>Email: info@rajasthancardiologysummit.com</p>
+      <p>© Rajasthan Cardiology Summit. All rights reserved.</p>
+      <p>Email: secretariat@rajasthancardiologysummit.com      Contact No.: +91 9166573532, +91 9509630021</p>
     </div>
   </footer>
 </body>
